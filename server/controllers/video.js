@@ -18,7 +18,7 @@ export const updateVideo = async (req, res, next) => {
         if (!video) {
             return next(createError(404, "Video not find!"));
         }
-        if (req.user.id === video.params.id) {
+        if (req.user.id === video.userId) {
             const updatedVideo = await Video.findByIdAndUpdate(req.params.id, {
                 $set: req.body
             }, { new: true });
@@ -37,7 +37,7 @@ export const deleteVideo = async (req, res, next) => {
         if (!video) {
             return next(createError(404, "Video not find!"));
         }
-        if (req.user.id === video.params.id) {
+        if (req.user.id === video.userId) {
             await Video.findByIdAndDelete(req.params.id);
             res.status(200).json("The video has been deleted!");
         } else {
@@ -94,16 +94,35 @@ export const subscribeVideo = async (req, res, next) => {
         const user = await User.findById(req.user.id);
         const subscribedChannels = user.subscribedUsers;
 
-        const list = Promise.all(
+        const list = await Promise.all(
             subscribedChannels.map(channelId => {
                 return Video.find({ userId: channelId });
             })
         );
 
-        res.status(200).json(list);
+        res.status(200).json(list.flat().sort((a, b) => b.createdAt - a.createdAt));
     } catch (err) {
         next(err);
     }
 }
 
+export const getByTags = async (req, res, next) => {
+    const tags = req.query.tags.split(",");
+    try {
+        const videos = await Video.find({tags: {$in: tags}}).limit(20);
+        res.status(200).json(videos);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const getBySearch = async (req, res, next) => {
+    const query = req.query.q;
+    try {
+        const videos = await Video.find({title: {$regex: query, $options: "i"}}).limit(40);
+        res.status(200).json(videos);
+    } catch (err) {
+        next(err);
+    }
+}
 
