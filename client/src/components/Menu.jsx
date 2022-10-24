@@ -93,13 +93,16 @@ const Menu = ({ darkMode, setDarkMode }) => {
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <Logo>
             <Img src={LamaTube} />
-            LamaTube
+            LumosTube
           </Logo>
         </Link>
-        <Item>
-          <HomeIcon />
-          Home
-        </Item>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <HomeIcon />
+            Home
+          </Item>
+        </Link>
+
 
         <Link to="trends" style={{ textDecoration: "none", color: "inherit" }}>
           <Item>
@@ -142,7 +145,7 @@ const Menu = ({ darkMode, setDarkMode }) => {
         )}
 
 
-        <Title>BEST OF LAMATUBE</Title>
+        <Title>BEST OF LUMOSTUBE</Title>
         <Item>
           <LibraryMusicOutlinedIcon />
           Music

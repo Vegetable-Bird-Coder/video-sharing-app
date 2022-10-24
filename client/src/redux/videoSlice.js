@@ -21,9 +21,29 @@ export const videoSlice = createSlice({
             state.loading = false;
             state.error = true;
         },
+        like: (state, action) => {
+            if (!state.curVideo.likes.includes(action.payload)) {
+                state.curVideo.likes.push(action.payload);
+                state.curVideo.dislikes.splice(
+                    state.curVideo.dislikes.findIndex(
+                        userId => userId === action.payload
+                    ), 1
+                )
+            }
+        },
+        dislike: (state, action) => {
+            if (!state.curVideo.dislikes.includes(action.payload)) {
+                state.curVideo.dislikes.push(action.payload);
+                state.curVideo.likes.splice(
+                    state.curVideo.likes.findIndex(
+                        userId => userId === action.payload
+                    ), 1
+                )
+            }
+        },
     }
 })
 
-export const { fetchStart, fetchSuccess, fetchFail } = videoSlice.actions;
+export const { fetchStart, fetchSuccess, fetchFail, like, dislike } = videoSlice.actions;
 
 export default videoSlice.reducer;

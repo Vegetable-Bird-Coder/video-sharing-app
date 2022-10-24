@@ -73,7 +73,7 @@ export const like = async (req, res, next) => {
     try {
         await Video.findByIdAndUpdate(videoId, {
             $addToSet: { likes: userId },
-            $pull: { dislike: userId }
+            $pull: { dislikes: userId }
         });
         res.status(200).json("The video has been liked!");
     } catch (err) {
@@ -87,7 +87,7 @@ export const dislike = async (req, res, next) => {
     try {
         await Video.findByIdAndUpdate(videoId, {
             $addToSet: { dislikes: userId },
-            $pull: { like: userId }
+            $pull: { likes: userId }
         });
         res.status(200).json("The video has been disliked!");
     } catch (err) {

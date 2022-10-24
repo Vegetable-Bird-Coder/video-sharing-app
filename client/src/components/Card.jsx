@@ -64,6 +64,8 @@ const Card = ({ type, video }) => {
     fetchChannel();
   }, [video.userId]);
 
+
+
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
@@ -75,6 +77,7 @@ const Card = ({ type, video }) => {
           <ChannelImage
             type={type}
             src={channel.img}
+            referrerPolicy="no-referrer"
           />
           <Texts>
             <Title>{video.title}</Title>
